@@ -1,0 +1,139 @@
+@import url("https://fonts.google.com/specimen/Rubik");
+@import url("https://fonts.googleapis.com/css2?family=Signika&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed&family=Saira+Condensed&family=Signika&display=swap");
+
+body {
+  overflow-x: hidden;
+}
+
+.div-imagen {
+  background-image: url("/img/pattern-bg.png");
+  font-family: "Rubik";
+  margin-top: -15px;
+  margin-left: -9px;
+  margin-right: -9px;
+}
+
+h1 {
+  color: white;
+  font-size: 19px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 12px;
+  width: 270px;
+  border-radius: 12px;
+}
+
+.div-input {
+  width: 340px;
+  margin: auto;
+  background-color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+}
+
+button {
+  background-color: black;
+  outline: none;
+  border: none;
+  border-top-right-radius: 23%;
+  border-bottom-right-radius: 23%;
+  padding: 3px;
+}
+
+.div-i {
+  background-color: black;
+  width: 30px;
+  border-top-right-radius: 23%;
+  border-bottom-right-radius: 23%;
+  padding: 9px;
+  cursor: pointer;
+}
+.i {
+  color: white;
+}
+
+.info-isp {
+  margin: 22px;
+}
+strong {
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  letter-spacing: 1px;
+}
+
+p {
+  margin-right: 92px;
+  font-size: 10px;
+  font-family: "Signika", sans-serif;
+  color: hsl(0, 0%, 59%);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+#mapid {
+  /* height: 280px; */
+  margin-top: 10px;
+  height: 90vh;
+}
+
+@media screen and (min-width: 761px) {
+  .informacion {
+    display: flex;
+    grid-template-columns: repeat(4, 1fr);
+    background-color: white;
+    justify-content: center;
+    width: 740px;
+    margin: auto;
+    margin-top: 20px;
+    border: 1px solid;
+    margin-bottom: 30px;
+    align-items: center;
+    border-radius: 10px;
+    position: relative;
+    top: 30px;
+  }
+  .info {
+    border-right: 1px solid hsl(0, 0%, 59%);
+    margin: 20px;
+  }
+}
+
+@media screen and (max-width: 761px) {
+  .informacion {
+    background-color: white;
+    margin-top: 20px;
+    border: 1px solid;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    position: relative;
+    top: 30px;
+    width: 90%;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 30px;
+  }
+
+  .info {
+    border: none;
+    margin: 10px;
+  }
+  p {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .div-input {
+    width: 90%;
+  }
+  .informacion {
+  }
+}

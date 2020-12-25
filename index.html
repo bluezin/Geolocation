@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- viewport mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+  <title>Geolocation</title>
+</head>
+
+<body>
+  <div class="div-imagen">
+    <h1>IP Address Tracker</h1>
+    <form id="form">
+      <div class="div-input">
+        <input type="text" placeholder="Search for any IP addres or domain" name="ip" id />
+        <button type="submit">
+          <div class="div-i">
+            <i class="fas fa-angle-right i"></i>
+          </div>
+        </button>
+
+      </div>
+    </form>
+
+    <div class="informacion">
+      <div class="info">
+        <p>IP ADDRESS</p>
+        <strong id="ip"></strong>
+      </div>
+      <div class="info">
+        <p>LOCATION</p>
+        <strong id="location"></strong>
+      </div>
+      <div class="info">
+        <p>TIMEZONE</p>
+        <strong id="timezone"></strong>
+      </div>
+
+      <div>
+        <p>ISP</p>
+        <strong id="isp"></strong>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="mapid"></div>
+
+
+
+  <script>
+
+    const form = document.getElementById("form")
+    form.addEventListener("click", geolocation)
+
+    function fetchNew() {
+      const dataForm = new FormData(form)
+
+      fetch(`https://geo.ipify.org/api/v1?apiKey=at_GetlEOhXvcrse9XmVi6Z2I1AHiBRA&ipAddress=${dataForm.get("ip")}`)
+        .then(response => response.json())
+        .then(data => {
+          let { region, timezone, country, lat } = data.location
+
+          const ip = document.getElementById("ip")
+          ip.textContent = data.ip
+
+          const location = document.getElementById("location")
+          location.textContent = `${region} ${country} ${lat}`;
+
+
+          const timezon = document.getElementById("timezone")
+          timezon.textContent = timezone
+
+          const isp = document.getElementById("isp")
+          isp.textContent = data.isp
+        }).catch(error => {
+          alert(`The IP is not correct : ${error}`)
+        })
+    }
+
+    function geolocation(event) {
+      event.preventDefault()
+      fetchNew()
+    }
+
+    fetchNew()
+
+
+
+    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+    var marker = L.marker([51.5, -0.09]).addTo(mymap);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: 'pk.eyJ1IjoieW9pc3kiLCJhIjoiY2tqMGx0MmhjMWZkeTJ4bW82Y2RkYXJjciJ9.AjcGRVv7ehPED7jpy_4Rag'
+    }).addTo(mymap);
+    var polygon = L.polygon([
+      [51.509, -0.08],
+      [51.503, -0.06],
+      [51.51, -0.047]
+    ]).addTo(mymap);
+  </script>
+</body>
+
+</html>
