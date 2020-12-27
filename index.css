@@ -39,6 +39,11 @@ input {
   align-items: center;
 }
 
+.strong {
+  text-align: center;
+  margin-top: 22px;
+}
+
 button {
   background-color: black;
   outline: none;
@@ -133,7 +138,5 @@ p {
 @media screen and (max-width: 375px) {
   .div-input {
     width: 90%;
-  }
-  .informacion {
   }
 }

@@ -4,8 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- viewport mobile -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
@@ -26,7 +24,7 @@
     <h1>IP Address Tracker</h1>
     <form id="form">
       <div class="div-input">
-        <input type="text" placeholder="Search for any IP addres or domain" name="ip" id />
+        <input type="text" placeholder="Search for any IP addres or domain" name="ip" id="ips" />
         <button type="submit">
           <div class="div-i">
             <i class="fas fa-angle-right i"></i>
@@ -35,6 +33,10 @@
 
       </div>
     </form>
+
+    <div class="strong">
+      <strong id="p"></strong>
+    </div>
 
     <div class="informacion">
       <div class="info">
@@ -68,33 +70,65 @@
     form.addEventListener("click", geolocation)
 
     function fetchNew() {
-      const dataForm = new FormData(form)
+      let dataForm = new FormData(form)
 
-      fetch(`https://geo.ipify.org/api/v1?apiKey=at_GetlEOhXvcrse9XmVi6Z2I1AHiBRA&ipAddress=${dataForm.get("ip")}`)
-        .then(response => response.json())
-        .then(data => {
-          let { region, timezone, country, lat } = data.location
+      {
+        dataForm.get("ip").length === 0 ?
+          fetch("http://api.ipstack.com/190.233.26.230?access_key=94bd8d75e1fb6e545c48142bbad6c59e&format=1")
+            .then(response => response.json())
+            .then(data => {
+              datos(data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+          :
+          fetch(`http://api.ipstack.com/${dataForm.get("ip")}?access_key=94bd8d75e1fb6e545c48142bbad6c59e&format=1`)
+            .then(response => response.json())
+            .then(data => {
+              const { geoname_id } = data.location
+              const input = document.getElementById("ips")
 
-          const ip = document.getElementById("ip")
-          ip.textContent = data.ip
+              if (geoname_id === null) {
 
-          const location = document.getElementById("location")
-          location.textContent = `${region} ${country} ${lat}`;
+                input.value = ""
+                alert("The IP ist'n correct")
+
+              } else {
+                datos(data)
+              }
+            })
+            .catch(error => {
+              console.log(error)
+            })
+      }
 
 
-          const timezon = document.getElementById("timezone")
-          timezon.textContent = timezone
-
-          const isp = document.getElementById("isp")
-          isp.textContent = data.isp
-        }).catch(error => {
-          alert(`The IP is not correct : ${error}`)
-        })
     }
 
     function geolocation(event) {
       event.preventDefault()
       fetchNew()
+    }
+
+    function datos(data) {
+
+      let { geoname_id, capital } = data.location
+
+      const ip = document.getElementById("ip")
+      ip.textContent = data.ip
+
+      const location = document.getElementById("location")
+      location.textContent = `${capital} ${data.country_code}`;
+
+
+      const timezon = document.getElementById("timezone")
+      timezon.textContent = data.region_code
+
+      const isp = document.getElementById("isp")
+      isp.textContent = data.city
+
+
     }
 
     fetchNew()
