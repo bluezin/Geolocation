@@ -83,7 +83,9 @@
               console.log(error)
             })
           :
-          fetch(`http://api.ipstack.com/${dataForm.get("ip")}?access_key=94bd8d75e1fb6e545c48142bbad6c59e&format=1`)
+          fetch(`http://api.ipstack.com/${dataForm.get("ip")}?access_key=94bd8d75e1fb6e545c48142bbad6c59e`)
+
+            // http://api.ipstack.com/${dataForm.get("ip")}?access_key=94bd8d75e1fb6e545c48142bbad6c59e&format=1
             .then(response => response.json())
             .then(data => {
               const { geoname_id } = data.location
