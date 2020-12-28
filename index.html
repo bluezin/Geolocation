@@ -71,10 +71,9 @@
 
     function fetchNew() {
       let dataForm = new FormData(form)
-
       {
         dataForm.get("ip").length === 0 ?
-          fetch("http://api.ipstack.com/190.233.26.230?access_key=94bd8d75e1fb6e545c48142bbad6c59e&format=1")
+          fetch("http://ip-api.com/json/190.233.26.230")
             .then(response => response.json())
             .then(data => {
               datos(data)
@@ -83,15 +82,11 @@
               console.log(error)
             })
           :
-          fetch(`http://api.ipstack.com/${dataForm.get("ip")}?access_key=94bd8d75e1fb6e545c48142bbad6c59e`)
-
-            // http://api.ipstack.com/${dataForm.get("ip")}?access_key=94bd8d75e1fb6e545c48142bbad6c59e&format=1
+          fetch(`http://ip-api.com/json/${dataForm.get("ip")}`)
             .then(response => response.json())
             .then(data => {
-              const { geoname_id } = data.location
               const input = document.getElementById("ips")
-
-              if (geoname_id === null) {
+              if (data.countryCode === undefined) {
 
                 input.value = ""
                 alert("The IP ist'n correct")
@@ -115,17 +110,15 @@
 
     function datos(data) {
 
-      let { geoname_id, capital } = data.location
-
       const ip = document.getElementById("ip")
-      ip.textContent = data.ip
+      ip.textContent = data.query
 
       const location = document.getElementById("location")
-      location.textContent = `${capital} ${data.country_code}`;
+      location.textContent = `${data.country} ${data.countryCode}`;
 
 
       const timezon = document.getElementById("timezone")
-      timezon.textContent = data.region_code
+      timezon.textContent = data.timezone
 
       const isp = document.getElementById("isp")
       isp.textContent = data.city
