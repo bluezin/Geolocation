@@ -71,9 +71,10 @@
 
     function fetchNew() {
       let dataForm = new FormData(form)
+      // 190.233.26.230
       {
         dataForm.get("ip").length === 0 ?
-          fetch("http://ip-api.com/json/190.233.26.230")
+          fetch("https://ipapi.co/8.8.8.8/json/")
             .then(response => response.json())
             .then(data => {
               datos(data)
@@ -82,17 +83,17 @@
               console.log(error)
             })
           :
-          fetch(`http://ip-api.com/json/${dataForm.get("ip")}`)
+          fetch(`https://ipapi.co/${dataForm.get("ip")}/json/`)
             .then(response => response.json())
             .then(data => {
               const input = document.getElementById("ips")
-              if (data.countryCode === undefined) {
+              if (data.country_code === undefined) {
 
-                input.value = ""
-                alert("The IP ist'n correct")
+              input.value = ""
+              alert("The IP ist'n correct")
 
               } else {
-                datos(data)
+              datos(data)
               }
             })
             .catch(error => {
@@ -111,10 +112,10 @@
     function datos(data) {
 
       const ip = document.getElementById("ip")
-      ip.textContent = data.query
+      ip.textContent = data.ip
 
       const location = document.getElementById("location")
-      location.textContent = `${data.country} ${data.countryCode}`;
+      location.textContent = `${data.country_name} ${data.country_code}`;
 
 
       const timezon = document.getElementById("timezone")
